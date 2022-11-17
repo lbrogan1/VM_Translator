@@ -52,18 +52,128 @@ def generate_pop_code(segment, index):
        
     return s
 
-
 def generate_arithmetic_or_logic_code(operation):
     """Generate assembly code to perform the specified ALU operation. 
     The two operands are popped from the stack and the result of the operation 
     placed back in the stack.
     """
     s = []
-    
-    # FIXME: complete implementation for + , - , | , and & operators
+
+    if operation == 'add':
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')     #D = operand2
+        
+        s.append('@SP')
+        s.append('M=M-1')   #Adjust stack pointer to point to operand 2
+        s.append('A=M')
+        s.append('D=M+D')   #D = operand1 + operand2
+
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')     #Push result to the stack
+
+        s.append('@SP')
+        s.append('M=M+1')   #Increment SP
+
+    if operation == 'sub':
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')     #D = operand2
+        
+        s.append('@SP')
+        s.append('M=M-1')   #Adjust stack pointer to point to operand 2
+        s.append('A=M')
+        s.append('D=M-D')   #D = operand1 - operand2
+
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')     #Push result to the stack
+
+        s.append('@SP')
+        s.append('M=M+1')   #Increment SP
+
+    #Not sure if needed, FIXME only says to do +, -, |, and &
+    if operation == 'mult':
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')     #D = operand2
+        
+        s.append('@SP')
+        s.append('M=M-1')   #Adjust stack pointer to point to operand 2
+        s.append('A=M')
+
+        s.append('D=M*D')   #D = operand1 * operand2
+
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')     #Push result to the stack
+
+        s.append('@SP')
+        s.append('M=M+1')   #Increment SP
+
+    #Not sure if needed, FIXME only says to do +, -, |, and &
+    if operation == 'div':
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')     #D = operand2
+        
+        s.append('@SP')
+        s.append('M=M-1')   #Adjust stack pointer to point to operand 2
+        s.append('A=M')
+
+        s.append('D=M/D')   #D = operand1 / operand2
+
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')     #Push result to the stack
+
+        s.append('@SP')
+        s.append('M=M+1')   #Increment SP
+
+    if operation == 'or':
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')     #D = operand2
+        
+        s.append('@SP')
+        s.append('M=M-1')   #Adjust stack pointer to point to operand 2
+        s.append('A=M')
+        s.append('D=M|D')   #D = operand1 | operand2
+
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')     #Push result to the stack
+
+        s.append('@SP')
+        s.append('M=M+1')   #Increment SP
+
+    if operation == 'and':
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')     #D = operand2
+        
+        s.append('@SP')
+        s.append('M=M-1')   #Adjust stack pointer to point to operand 2
+        s.append('A=M')
+        s.append('D=M&D')   #D = operand1 & operand2
+
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')     #Push result to the stack
+
+        s.append('@SP')
+        s.append('M=M+1')   #Increment SP
+
+# FIXME: complete implementation for + , - , | , and & operators
                  
     return s
-
 
 def generate_unary_operation_code(operation):
     """Generate assembly code to perform the specified unary operation. 
@@ -71,11 +181,39 @@ def generate_unary_operation_code(operation):
     placed back in the stack.
     """
     s = []
-    
-     # FIXME: complete implementation for bit-wise not (!) and negation (-) operatiors
+
+    if operation == 'neg':
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')     #D = operand
+
+        s.append('D=0-D')   #D = -operand
+
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')     #Push result to the stack
+
+        s.append('@SP')
+        s.append('M=M+1')   #Increment SP
+
+
+    if operation == 'not':
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')     #D = operand
+
+        s.append('D=!D')   #D = -operand
+
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')     #Push result to the stack
+
+        s.append('@SP')
+        s.append('M=M+1')   #Increment SP
     
     return s
-
 
 def generate_relation_code(operation, line_number):
     """Generate assembly code to perform the specified relational operation. 
@@ -174,7 +312,6 @@ def generate_set_code(register, value):
     
     return s
 
-
 def translate(tokens, line_number):
     """Translate a VM command/statement into the corresponding Hack assembly commands/statements."""
     s = []
@@ -235,7 +372,6 @@ def run_vm_translator(file_name):
                 return assembly_code
     
     return assembly_code
-
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
