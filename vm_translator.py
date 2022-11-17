@@ -110,8 +110,41 @@ def generate_relation_code(operation, line_number):
         s.append('M=-1')        # Save result on stack
         s.append('(' + label_2 + ')')
         
-   
-    # FIXME: complete implementation for eq and gt operations
+    #I think the only difference between lt and gt is switching JLT to JGT     
+    if operation == 'gt':
+        s.append('D=M-D')   # D = operand1 - operand2
+        label_1 = 'IF_GT_' + str(line_number)
+        s.append('@' + label_1)
+        s.append('D;JGT')       # if operand1 > operand2 goto IF_GT_*
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=0')          # Save result on stack 
+        label_2 = 'END_IF_ELSE_' + str(line_number)
+        s.append('@' + label_2)
+        s.append('0;JMP')
+        s.append('(' + label_1 + ')')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=-1')        # Save result on stack
+        s.append('(' + label_2 + ')')
+
+    #I think the only difference between lt and eg is switching JLT to JEQ  
+    if operation == 'eq':
+        s.append('D=M-D')   # D = operand1 - operand2
+        label_1 = 'IF_EQ_' + str(line_number)
+        s.append('@' + label_1)
+        s.append('D;JEQ')       # if operand1 == operand2 goto IF_EQ_*
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=0')          # Save result on stack 
+        label_2 = 'END_IF_ELSE_' + str(line_number)
+        s.append('@' + label_2)
+        s.append('0;JMP')
+        s.append('(' + label_1 + ')')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=-1')        # Save result on stack
+        s.append('(' + label_2 + ')')
     
     return s
   
