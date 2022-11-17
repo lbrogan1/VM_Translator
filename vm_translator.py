@@ -24,7 +24,6 @@ def generate_exit_code():
     s.append('0;JMP')
     return s
 
-
 def generate_push_code(segment, index):
     """Generate assembly code to push value into the stack.
     In the case of a variable, it is read from the specified memory segment using (base + index) 
@@ -33,14 +32,44 @@ def generate_push_code(segment, index):
     s = [] 
         
     if segment == 'constant':
+        s.append('@' + index)
+        s.append('D=A')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('M=M+1')
+        return s
+    
+    if segment == 'local':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'arguement':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'this':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'that':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'temp':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'pointer':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'static':
         # FIXME: complete the implementation 
         return s
     
-    # FIXME: complete implmentation for local, argument, this, that, temp, pointer, and static segments.
-    
     return s
     
-
 def generate_pop_code(segment, index):
     """Generate assembly code to pop value from the stack.
     The popped value is stored in the specified memory segment using (base + index) 
@@ -48,7 +77,45 @@ def generate_pop_code(segment, index):
     """
     s = []
     
-    # FIXME: complete implmentation for local, argument, this, that, temp, pointer, and static segments.
+    if segment == 'local':
+        s.append('LCL')
+        s.append('D=M')
+        s.append('@' + index)
+        s.append('D=D+A')
+        s.append()               #@13 -- temp register R13 --> base + index
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M-1')
+        s.append('A=M')
+        s.append('D=M')
+        s.append()               #@13 -- temp register R13 --> base + index
+        s.append('A=M')
+        s.append('M+D')
+        return s
+
+    if segment == 'arguement':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'this':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'that':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'temp':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'pointer':
+        # FIXME: complete the implementation 
+        return s
+
+    if segment == 'static':
+        # FIXME: complete the implementation 
+        return s
        
     return s
 
