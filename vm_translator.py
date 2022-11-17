@@ -41,19 +41,59 @@ def generate_push_code(segment, index):
         return s
     
     if segment == 'local':
-        # FIXME: complete the implementation 
+        s.append('@LCL')
+        s.append('D=M')
+        s.append('@' + index)
+        s.append('D=D+A')
+        s.append('A=D')
+        s.append('D=M')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M+1')
         return s
 
     if segment == 'arguement':
-        # FIXME: complete the implementation 
+        s.append('@ARG')
+        s.append('D=M')
+        s.append('@' + index)
+        s.append('D=D+A')
+        s.append('A=D')
+        s.append('D=M')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M+1')
         return s
 
     if segment == 'this':
-        # FIXME: complete the implementation 
+        s.append('@THIS')
+        s.append('D=M')
+        s.append('@' + index)
+        s.append('D=D+A')
+        s.append('A=D')
+        s.append('D=M')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M+1')
         return s
 
     if segment == 'that':
-        # FIXME: complete the implementation 
+        s.append('@THAT')
+        s.append('D=M')
+        s.append('@' + index)
+        s.append('D=D+A')
+        s.append('A=D')
+        s.append('D=M')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M+1')
         return s
 
     if segment == 'temp':
