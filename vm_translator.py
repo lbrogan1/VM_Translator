@@ -251,8 +251,7 @@ def generate_unary_operation_code(operation):
 
     if operation == 'neg':
         s.append('@SP')
-        s.append('M=M-1')
-        s.append('A=M')
+        s.append('A=M-1')
         s.append('D=M')     #D = operand
 
         s.append('D=0-D')   #D = -operand
@@ -267,8 +266,7 @@ def generate_unary_operation_code(operation):
 
     if operation == 'not':
         s.append('@SP')
-        s.append('M=M-1')
-        s.append('A=M')
+        s.append('A=M-1')
         s.append('D=M')     #D = operand
 
         s.append('D=!D')   #D = -operand
