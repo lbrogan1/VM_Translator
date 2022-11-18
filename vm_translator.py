@@ -97,15 +97,33 @@ def generate_push_code(segment, index):
         return s
 
     if segment == 'temp':
-        # FIXME: complete the implementation 
+        s.append('@' + str(5+int(index)))
+        s.append('D=M')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M+1')
         return s
 
     if segment == 'pointer':
-        # FIXME: complete the implementation 
+        s.append('@' + str(3+int(index)))
+        s.append('D=M')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M+1')
         return s
 
     if segment == 'static':
-        # FIXME: complete the implementation 
+        s.append('@' + str(16+int(index)))
+        s.append('D=M')
+        s.append('@SP')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M+1')
         return s
     
     return s
@@ -134,27 +152,105 @@ def generate_pop_code(segment, index):
         return s
 
     if segment == 'arguement':
-        # FIXME: complete the implementation 
+        s.append('@'+str(index))
+        s.append('D=A')
+        s.append('@ARG')
+        s.append('D=M+D')
+        s.append('@13')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('A=M-1')
+        s.append('D=M')
+        s.append('@13')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M-1')
         return s
 
     if segment == 'this':
-        # FIXME: complete the implementation 
+        s.append('@'+str(index))
+        s.append('D=A')
+        s.append('@THIS')
+        s.append('D=M+D')
+        s.append('@13')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('A=M-1')
+        s.append('D=M')
+        s.append('@13')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M-1') 
         return s
 
     if segment == 'that':
-        # FIXME: complete the implementation 
+        s.append('@'+str(index))
+        s.append('D=A')
+        s.append('@THAT')
+        s.append('D=M+D')
+        s.append('@13')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('A=M-1')
+        s.append('D=M')
+        s.append('@13')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M-1') 
         return s
 
     if segment == 'temp':
-        # FIXME: complete the implementation 
+        s.append('@'+str(index))
+        s.append('D=A')
+        s.append('@5')
+        s.append('D=A+D')
+        s.append('@13')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('A=M-1')
+        s.append('D=M')
+        s.append('@13')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M-1') 
         return s
 
     if segment == 'pointer':
-        # FIXME: complete the implementation 
+        s.append('@'+str(index))
+        s.append('D=A')
+        s.append('@3')
+        s.append('D=A+D')
+        s.append('@13')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('A=M-1')
+        s.append('D=M')
+        s.append('@13')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M-1') 
         return s
 
     if segment == 'static':
-        # FIXME: complete the implementation 
+        s.append('@'+str(index))
+        s.append('D=A')
+        s.append('@16')
+        s.append('D=A+D')
+        s.append('@13')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('A=M-1')
+        s.append('D=M')
+        s.append('@13')
+        s.append('A=M')
+        s.append('M=D')
+        s.append('@SP')
+        s.append('M=M-1')
         return s
        
     return s
