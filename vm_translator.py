@@ -32,18 +32,19 @@ def generate_push_code(segment, index):
     s = [] 
         
     if segment == 'constant':
-        s.append('@' + index)
+        s.append('@' + str(index))
         s.append('D=A')
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
+        s.append('@SP')
         s.append('M=M+1')
         return s
     
     if segment == 'local':
         s.append('@LCL')
         s.append('D=M')
-        s.append('@' + index)
+        s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
@@ -54,10 +55,10 @@ def generate_push_code(segment, index):
         s.append('M=M+1')
         return s
 
-    if segment == 'arguement':
+    if segment == 'argument':
         s.append('@ARG')
         s.append('D=M')
-        s.append('@' + index)
+        s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
@@ -71,7 +72,7 @@ def generate_push_code(segment, index):
     if segment == 'this':
         s.append('@THIS')
         s.append('D=M')
-        s.append('@' + index)
+        s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
@@ -85,7 +86,7 @@ def generate_push_code(segment, index):
     if segment == 'that':
         s.append('@THAT')
         s.append('D=M')
-        s.append('@' + index)
+        s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
@@ -98,6 +99,10 @@ def generate_push_code(segment, index):
 
     if segment == 'temp':
         s.append('@' + str(5+int(index)))
+        s.append('D=A')
+        s.append('@' + str(index))
+        s.append('D=D+A')
+        s.append('A=D')
         s.append('D=M')
         s.append('@SP')
         s.append('A=M')
@@ -108,6 +113,10 @@ def generate_push_code(segment, index):
 
     if segment == 'pointer':
         s.append('@' + str(3+int(index)))
+        s.append('D=A')
+        s.append('@' + str(index))
+        s.append('D=D+A')
+        s.append('A=D')
         s.append('D=M')
         s.append('@SP')
         s.append('A=M')
@@ -136,104 +145,99 @@ def generate_pop_code(segment, index):
     s = []
     
     if segment == 'local':
-        s.append('LCL')
+        s.append('@LCL')
         s.append('D=M')
-        s.append('@' + index)
+        s.append('@' + str(index))
         s.append('D=D+A')
-        s.append()               #@13 -- temp register R13 --> base + index
+        s.append('@13')               #@13 -- temp register R13 --> base + index
         s.append('M=D')
         s.append('@SP')
         s.append('M=M-1')
         s.append('A=M')
         s.append('D=M')
-        s.append()               #@13 -- temp register R13 --> base + index
+        s.append('@13')               #@13 -- temp register R13 --> base + index
         s.append('A=M')
-        s.append('M+D')
+        s.append('M=D')
         return s
 
-    if segment == 'arguement':
-        s.append('@'+str(index))
-        s.append('D=A')
+    if segment == 'argument':
         s.append('@ARG')
-        s.append('D=M+D')
+        s.append('D=M')
+        s.append('@'+str(index))
+        s.append('D=D+A')
         s.append('@13')
         s.append('M=D')
         s.append('@SP')
-        s.append('A=M-1')
+        s.append('M=M-1')
+        s.append('A=M')
         s.append('D=M')
         s.append('@13')
         s.append('A=M')
         s.append('M=D')
-        s.append('@SP')
-        s.append('M=M-1')
         return s
 
     if segment == 'this':
-        s.append('@'+str(index))
-        s.append('D=A')
         s.append('@THIS')
-        s.append('D=M+D')
+        s.append('D=M')
+        s.append('@'+str(index))
+        s.append('D=D+A')
         s.append('@13')
         s.append('M=D')
         s.append('@SP')
-        s.append('A=M-1')
+        s.append('M=M-1')
+        s.append('A=M')
         s.append('D=M')
         s.append('@13')
         s.append('A=M')
         s.append('M=D')
-        s.append('@SP')
-        s.append('M=M-1') 
         return s
 
     if segment == 'that':
-        s.append('@'+str(index))
-        s.append('D=A')
         s.append('@THAT')
-        s.append('D=M+D')
+        s.append('D=M')
+        s.append('@'+str(index))
+        s.append('D=D+A')
         s.append('@13')
         s.append('M=D')
         s.append('@SP')
-        s.append('A=M-1')
+        s.append('M=M-1')
+        s.append('A=M')
         s.append('D=M')
         s.append('@13')
         s.append('A=M')
         s.append('M=D')
-        s.append('@SP')
-        s.append('M=M-1') 
         return s
 
     if segment == 'temp':
-        s.append('@'+str(index))
-        s.append('D=A')
         s.append('@5')
+        s.append('D=A')
+        s.append('@'+str(index))
         s.append('D=A+D')
         s.append('@13')
         s.append('M=D')
         s.append('@SP')
-        s.append('A=M-1')
+        s.append('M=M-1')
+        s.append('A=M')
         s.append('D=M')
         s.append('@13')
         s.append('A=M')
         s.append('M=D')
-        s.append('@SP')
-        s.append('M=M-1') 
         return s
 
     if segment == 'pointer':
-        s.append('@'+str(index))
-        s.append('D=A')
         s.append('@3')
+        s.append('D=A')
+        s.append('@'+str(index))
         s.append('D=A+D')
         s.append('@13')
         s.append('M=D')
         s.append('@SP')
-        s.append('A=M-1')
+        s.append('M=M-1')
+        s.append('A=M')
         s.append('D=M')
         s.append('@13')
         s.append('A=M')
         s.append('M=D')
-        s.append('@SP')
-        s.append('M=M-1') 
         return s
 
     if segment == 'static':
@@ -249,8 +253,6 @@ def generate_pop_code(segment, index):
         s.append('@13')
         s.append('A=M')
         s.append('M=D')
-        s.append('@SP')
-        s.append('M=M-1')
         return s
        
     return s
@@ -272,9 +274,6 @@ def generate_arithmetic_or_logic_code(operation):
         s.append('M=M-1')   #Adjust stack pointer to point to operand 2
         s.append('A=M')
         s.append('D=M+D')   #D = operand1 + operand2
-
-        s.append('@SP')
-        s.append('A=M')
         s.append('M=D')     #Push result to the stack
 
         s.append('@SP')
@@ -290,9 +289,6 @@ def generate_arithmetic_or_logic_code(operation):
         s.append('M=M-1')   #Adjust stack pointer to point to operand 2
         s.append('A=M')
         s.append('D=M-D')   #D = operand1 - operand2
-
-        s.append('@SP')
-        s.append('A=M')
         s.append('M=D')     #Push result to the stack
 
         s.append('@SP')
@@ -348,9 +344,6 @@ def generate_arithmetic_or_logic_code(operation):
         s.append('M=M-1')   #Adjust stack pointer to point to operand 2
         s.append('A=M')
         s.append('D=M|D')   #D = operand1 | operand2
-
-        s.append('@SP')
-        s.append('A=M')
         s.append('M=D')     #Push result to the stack
 
         s.append('@SP')
@@ -366,9 +359,6 @@ def generate_arithmetic_or_logic_code(operation):
         s.append('M=M-1')   #Adjust stack pointer to point to operand 2
         s.append('A=M')
         s.append('D=M&D')   #D = operand1 & operand2
-
-        s.append('@SP')
-        s.append('A=M')
         s.append('M=D')     #Push result to the stack
 
         s.append('@SP')
@@ -387,10 +377,11 @@ def generate_unary_operation_code(operation):
 
     if operation == 'neg':
         s.append('@SP')
-        s.append('A=M-1')
+        s.append('M=M-1')
+        s.append('A=M')
         s.append('D=M')     #D = operand
 
-        s.append('D=0-D')   #D = -operand
+        s.append('D=-D')   #D = -operand
 
         s.append('@SP')
         s.append('A=M')
@@ -402,10 +393,11 @@ def generate_unary_operation_code(operation):
 
     if operation == 'not':
         s.append('@SP')
-        s.append('A=M-1')
+        s.append('M=M-1')
+        s.append('A=M')
         s.append('D=M')     #D = operand
 
-        s.append('D=!D')   #D = -operand
+        s.append('D=!D')   #D = !operand
 
         s.append('@SP')
         s.append('A=M')
