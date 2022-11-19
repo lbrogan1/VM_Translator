@@ -34,6 +34,7 @@ def generate_push_code(segment, index):
     if segment == 'constant':
         s.append('@' + str(index))
         s.append('D=A')
+        
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
@@ -44,13 +45,16 @@ def generate_push_code(segment, index):
     if segment == 'local':
         s.append('@LCL')
         s.append('D=M')
+
         s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
+
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
+
         s.append('@SP')
         s.append('M=M+1')
         return s
@@ -58,13 +62,16 @@ def generate_push_code(segment, index):
     if segment == 'argument':
         s.append('@ARG')
         s.append('D=M')
+
         s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
+
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
+
         s.append('@SP')
         s.append('M=M+1')
         return s
@@ -72,13 +79,16 @@ def generate_push_code(segment, index):
     if segment == 'this':
         s.append('@THIS')
         s.append('D=M')
+
         s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
+
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
+
         s.append('@SP')
         s.append('M=M+1')
         return s
@@ -86,51 +96,61 @@ def generate_push_code(segment, index):
     if segment == 'that':
         s.append('@THAT')
         s.append('D=M')
+
         s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
+
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
+
         s.append('@SP')
         s.append('M=M+1')
         return s
 
     if segment == 'temp':
-        s.append('@' + str(5+int(index)))
+        s.append('@5')                        #s.append('@' + str(5+int(index)))
         s.append('D=A')
+
         s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
+
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
+
         s.append('@SP')
         s.append('M=M+1')
         return s
 
     if segment == 'pointer':
-        s.append('@' + str(3+int(index)))
+        s.append('@3')              #s.append('@' + str(3+int(index)))
         s.append('D=A')
+
         s.append('@' + str(index))
         s.append('D=D+A')
         s.append('A=D')
         s.append('D=M')
+
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
+
         s.append('@SP')
         s.append('M=M+1')
         return s
 
     if segment == 'static':
-        s.append('@' + str(16+int(index)))
+        s.append('@' + str(index))                #s.append('@16')                    #s.append('@' + str(16+int(index)))
         s.append('D=M')
         s.append('@SP')
         s.append('A=M')
         s.append('M=D')
+
         s.append('@SP')
         s.append('M=M+1')
         return s
@@ -147,15 +167,18 @@ def generate_pop_code(segment, index):
     if segment == 'local':
         s.append('@LCL')
         s.append('D=M')
+
         s.append('@' + str(index))
         s.append('D=D+A')
-        s.append('@13')               #@13 -- temp register R13 --> base + index
+
+        s.append('@R13')               #@13 -- temp register R13 --> base + index
         s.append('M=D')
         s.append('@SP')
         s.append('M=M-1')
         s.append('A=M')
         s.append('D=M')
-        s.append('@13')               #@13 -- temp register R13 --> base + index
+
+        s.append('@R13')               #@13 -- temp register R13 --> base + index
         s.append('A=M')
         s.append('M=D')
         return s
@@ -163,15 +186,18 @@ def generate_pop_code(segment, index):
     if segment == 'argument':
         s.append('@ARG')
         s.append('D=M')
+
         s.append('@'+str(index))
         s.append('D=D+A')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('M=D')
         s.append('@SP')
         s.append('M=M-1')
         s.append('A=M')
         s.append('D=M')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('A=M')
         s.append('M=D')
         return s
@@ -179,15 +205,18 @@ def generate_pop_code(segment, index):
     if segment == 'this':
         s.append('@THIS')
         s.append('D=M')
+
         s.append('@'+str(index))
         s.append('D=D+A')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('M=D')
         s.append('@SP')
         s.append('M=M-1')
         s.append('A=M')
         s.append('D=M')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('A=M')
         s.append('M=D')
         return s
@@ -195,15 +224,18 @@ def generate_pop_code(segment, index):
     if segment == 'that':
         s.append('@THAT')
         s.append('D=M')
+
         s.append('@'+str(index))
         s.append('D=D+A')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('M=D')
         s.append('@SP')
         s.append('M=M-1')
         s.append('A=M')
         s.append('D=M')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('A=M')
         s.append('M=D')
         return s
@@ -211,15 +243,18 @@ def generate_pop_code(segment, index):
     if segment == 'temp':
         s.append('@5')
         s.append('D=A')
+
         s.append('@'+str(index))
         s.append('D=A+D')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('M=D')
         s.append('@SP')
         s.append('M=M-1')
         s.append('A=M')
         s.append('D=M')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('A=M')
         s.append('M=D')
         return s
@@ -229,29 +264,26 @@ def generate_pop_code(segment, index):
         s.append('D=A')
         s.append('@'+str(index))
         s.append('D=A+D')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('M=D')
         s.append('@SP')
         s.append('M=M-1')
         s.append('A=M')
         s.append('D=M')
-        s.append('@13')
+
+        s.append('@R13')
         s.append('A=M')
         s.append('M=D')
         return s
 
     if segment == 'static':
-        s.append('@'+str(index))
-        s.append('D=A')
-        s.append('@16')
-        s.append('D=A+D')
-        s.append('@13')
-        s.append('M=D')
         s.append('@SP')
-        s.append('A=M-1')
-        s.append('D=M')
-        s.append('@13')
+        s.append('M=M-1')
         s.append('A=M')
+        s.append('D=M')
+
+        s.append('@'+str(index))
         s.append('M=D')
         return s
        
@@ -418,11 +450,10 @@ def generate_relation_code(operation, line_number):
     label_2 = ''
     
     s.append('@SP')
+    s.append('M=M-1')
     s.append('A=M')
     s.append('D=M')             # D  = operand2
-    s.append('@SP')
-    s.append('M=M-1')           # Adjust stack pointer
-    s.append('A=M')
+    s.append('A=A-1')
         
     if operation == 'lt':
         s.append('D=M-D')       # D = operand1 - operand2
@@ -430,50 +461,50 @@ def generate_relation_code(operation, line_number):
         s.append('@' + label_1)
         s.append('D;JLT')       # if operand1 < operand2 goto IF_LT_*
         s.append('@SP')
-        s.append('A=M')
+        s.append('A=M-1')
         s.append('M=0')          # Save result on stack 
         label_2 = 'END_IF_ELSE_' + str(line_number)
         s.append('@' + label_2)
         s.append('0;JMP')
         s.append('(' + label_1 + ')')
         s.append('@SP')
-        s.append('A=M')
+        s.append('A=M-1')
         s.append('M=-1')        # Save result on stack
         s.append('(' + label_2 + ')')
         
     #I think the only difference between lt and gt is switching JLT to JGT     
     if operation == 'gt':
-        s.append('D=M-D')   # D = operand1 - operand2
+        s.append('D=M-D')       # D = operand1 - operand2
         label_1 = 'IF_GT_' + str(line_number)
         s.append('@' + label_1)
-        s.append('D;JGT')       # if operand1 > operand2 goto IF_GT_*
+        s.append('D;JGT')       # if operand1 < operand2 goto IF_LT_*
         s.append('@SP')
-        s.append('A=M')
+        s.append('A=M-1')
         s.append('M=0')          # Save result on stack 
         label_2 = 'END_IF_ELSE_' + str(line_number)
         s.append('@' + label_2)
         s.append('0;JMP')
         s.append('(' + label_1 + ')')
         s.append('@SP')
-        s.append('A=M')
+        s.append('A=M-1')
         s.append('M=-1')        # Save result on stack
         s.append('(' + label_2 + ')')
 
     #I think the only difference between lt and eg is switching JLT to JEQ  
     if operation == 'eq':
-        s.append('D=M-D')   # D = operand1 - operand2
+        s.append('D=M-D')       # D = operand1 - operand2
         label_1 = 'IF_EQ_' + str(line_number)
         s.append('@' + label_1)
-        s.append('D;JEQ')       # if operand1 == operand2 goto IF_EQ_*
+        s.append('D;JEQ')       # if operand1 < operand2 goto IF_LT_*
         s.append('@SP')
-        s.append('A=M')
+        s.append('A=M-1')
         s.append('M=0')          # Save result on stack 
         label_2 = 'END_IF_ELSE_' + str(line_number)
         s.append('@' + label_2)
         s.append('0;JMP')
         s.append('(' + label_1 + ')')
         s.append('@SP')
-        s.append('A=M')
+        s.append('A=M-1')
         s.append('M=-1')        # Save result on stack
         s.append('(' + label_2 + ')')
     
