@@ -273,7 +273,10 @@ def generate_arithmetic_or_logic_code(operation):
         s.append('@SP')
         s.append('M=M-1')   #Adjust stack pointer to point to operand 2
         s.append('A=M')
-        s.append('D=M+D')   #D = operand1 + operand2
+        s.append('D=M+D')   #D = operand1 - operand2
+
+        s.append('@SP')
+        s.append('A=M')
         s.append('M=D')     #Push result to the stack
 
         s.append('@SP')
@@ -289,6 +292,9 @@ def generate_arithmetic_or_logic_code(operation):
         s.append('M=M-1')   #Adjust stack pointer to point to operand 2
         s.append('A=M')
         s.append('D=M-D')   #D = operand1 - operand2
+
+        s.append('@SP')
+        s.append('A=M')
         s.append('M=D')     #Push result to the stack
 
         s.append('@SP')
@@ -343,7 +349,10 @@ def generate_arithmetic_or_logic_code(operation):
         s.append('@SP')
         s.append('M=M-1')   #Adjust stack pointer to point to operand 2
         s.append('A=M')
-        s.append('D=M|D')   #D = operand1 | operand2
+        s.append('D=M|D')   #D = operand1 - operand2
+
+        s.append('@SP')
+        s.append('A=M')
         s.append('M=D')     #Push result to the stack
 
         s.append('@SP')
@@ -358,7 +367,10 @@ def generate_arithmetic_or_logic_code(operation):
         s.append('@SP')
         s.append('M=M-1')   #Adjust stack pointer to point to operand 2
         s.append('A=M')
-        s.append('D=M&D')   #D = operand1 & operand2
+        s.append('D=M&D')   #D = operand1 - operand2
+
+        s.append('@SP')
+        s.append('A=M')
         s.append('M=D')     #Push result to the stack
 
         s.append('@SP')
